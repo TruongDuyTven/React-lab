@@ -3,12 +3,12 @@ import { useState,  useEffect } from 'react'
 
 const themes = {
     dark: {
-        backgroundColor: '#1a0000',
+        backgroundColor: '#1a1a1a',
         color: 'white'
     },
     light: {
         backgroundColor: 'white',
-        color: 'black'
+        color: '#1a1a1a'
     }
 }
 const initialState = {
