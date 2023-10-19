@@ -6,6 +6,8 @@ import Contact from './pages/contact'
 import Header from './components/header'
 import Footer from './components/footer'
 import useTheme from './hook/useTheme';
+import About from './pages/about';
+import New from './pages/new';
 
 function App() {
   const { theme } = useTheme();
@@ -16,7 +18,9 @@ function App() {
         <Route path="/" element={<Films/> } />
         <Route path="/home" element={<Films/> } />
         <Route path='/detail/:id' element={<Detail/> } />
-        <Route path="/contact" element={<Contact/> } />
+        <Route path="/contact" element={<Contact /> } />
+        <Route path="/about" element={<About /> } />
+        <Route path="/new" element={<New /> } />
       </Routes>
       <Footer />
     </div>

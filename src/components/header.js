@@ -13,7 +13,7 @@ import MovieFilter from '@mui/icons-material/MovieFilter';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-const pages = ['Home', 'About', 'Contact'];
+const pages = ['Home', 'About', 'New', 'Contact'];
 
 function Header() {
   const [anchorElNav, setAnchorElNav] = useState(null);
