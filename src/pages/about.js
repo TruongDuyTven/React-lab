@@ -18,7 +18,7 @@ function About() {
                 ABOUT US
             </Typography>
 
-            <div style={{ minHeight: '85vh', marginTop: '50px' }}>
+            <div style={{ minHeight: '71vh', marginTop: '50px' }}>
                 <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
                     <AccordionSummary
                         expandIcon={<ExpandMoreIcon />}

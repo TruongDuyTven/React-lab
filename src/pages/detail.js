@@ -1,15 +1,28 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import FilmsData from '../shared/ListOfFilms';
-import Container from '@mui/material/Container';
+import Container from '@mui/material/Container'
 import { Box, Typography, Button, Modal } from '@mui/material'
-import CloseIcon from '@mui/icons-material/Close';
+import CloseIcon from '@mui/icons-material/Close'
+import axios from 'axios'
 
 function Detail() {
   const selectedFilm = useParams();
-  const film = FilmsData.find(obj => {
-    return obj.id === parseInt(selectedFilm.id);
-  });
+  const [film, setFilm] = useState([]);
+
+  useEffect(() => {
+    const baseURL = `https://6533d85ae1b6f4c5904650d5.mockapi.io/Films`;
+    axios.get(`${baseURL}/${selectedFilm.id}`)
+      .then(response => {
+        setFilm(response.data);
+      })
+      .catch(error => {
+        if (error.response) {
+          console.error(`HTTP Status: ${error.response.status}`);
+        } else {
+          console.error('Error', error.message);
+        }
+      });
+  }, [selectedFilm.id]);
 
   const [open, setOpen] = useState(false);
 
@@ -78,7 +91,11 @@ function Detail() {
             <Typography fontSize='20px' id="modal-modal-description">
               Detail: {film && film.Detail}
             </Typography>
-            <Button variant='outlined' style={{ marginTop: '20px' }} onClick={handleOpen}>View Trailer</Button>
+            <div style={{ display: 'flex', gap: '20px' }}>
+            <Button variant='outlined' style={{ marginTop: '20px', width: 'calc(33.33%)' }} onClick={handleOpen}>View Trailer</Button>
+            <Button variant='outlined' style={{ marginTop: '20px', width: 'calc(33.33%)' }} onClick={handleOpen}>Update film</Button>
+            <Button variant='outlined' style={{ marginTop: '20px', width: 'calc(33.33%)' }} onClick={handleOpen}>Delete film</Button>
+            </div>
           </Box>
         </Box>
       }

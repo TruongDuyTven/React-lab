@@ -1,21 +1,38 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Container from '@mui/material/Container';
-import FilmsData from '../shared/ListOfFilms';
 import { Card, CardActionArea, CardContent, CardMedia, Fab, Grid, Typography } from '@mui/material';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import Button from '@mui/material/Button';
 import useTheme from '../hook/useTheme';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 function Films() {
     const { theme, toggle, dark } = useTheme();
+    const [APIData, setAPIData] = useState([]);
+    
+
+    useEffect(() => {
+        const baseURL = `https://6533d85ae1b6f4c5904650d5.mockapi.io/Films`;
+        axios.get(baseURL)
+            .then(response => {
+                setAPIData(response.data);
+            })
+            .catch(error => {
+                if (error.response) {
+                    console.error(`HTTP Status: ${error.response.status}`);
+                } else {
+                    console.error('Error', error.message);
+                }
+            });
+    }, []);
 
     return (
-        <div className='container-films' style={{ backgroundColor: theme.backgroundColor, color: theme.color, marginTop: '50px', marginBottom: '50px'}}>
+        <div className='container-films' style={{ backgroundColor: theme.backgroundColor, color: theme.color, marginTop: '50px', marginBottom: '50px' }}>
             <Container>
                 <Grid container spacing={5}>
-                    {FilmsData.map((film) => (
+                    {APIData.map((film) => (
                         <Grid item sx={12} sm={6} md={4} key={film.id}>
                             <Card sx={{ maxWidth: 350 }}>
                                 <CardActionArea>
@@ -32,7 +49,7 @@ function Films() {
                                         }}
                                     />
                                     <CardContent sx={{ backgroundColor: theme.color, color: theme.backgroundColor, paddingTop: '30px' }}>
-                                        <Typography gutterBottom variant="h5" component="div" fontWeight='bold'>
+                                        <Typography gutterBottom variant="h6" component="div" fontWeight='bold'>
                                             {film.Title}
                                         </Typography>
                                         <Typography variant="body2" fontSize='20px'>
@@ -41,7 +58,7 @@ function Films() {
                                         <Typography variant="body2" fontSize='20px'>
                                             Nation: {film.Nation}
                                         </Typography>
-                                        <Link to={`detail/${film.id}`}><Button variant="outlined" sx={{marginTop: '5px', color: theme.backgroundColor, backgroundColor: theme.color}}>
+                                        <Link to={`detail/${film.id}`}><Button variant="outlined" sx={{ marginTop: '5px', color: theme.backgroundColor, backgroundColor: theme.color }}>
                                             Detail
                                         </Button></Link>
                                     </CardContent>

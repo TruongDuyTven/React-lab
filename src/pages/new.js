@@ -5,10 +5,10 @@ import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import NewsData from '../shared/ListOfNews';
 import { Card, CardActionArea, CardContent } from '@mui/material';
 import MovieIcon from '@mui/icons-material/Movie';
 import PersonIcon from '@mui/icons-material/Person';
+import NewsData from '../shared/ListOfNews';
 
 function CustomTabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -79,11 +79,11 @@ export default function New() {
                 </CustomTabPanel>
                 <CustomTabPanel value={value} index={1}>
                 {NewsData.filter(newsData => newsData.type === 'movie').map((filterData) => (
-                        <Card sx={{ widt: '100%', marginBottom: '20px', boxShadow: '2px 2px 4px 2px gray' }}>
+                        <Card sx={{ width: '100%', marginBottom: '20px', boxShadow: '2px 2px 4px 2px gray' }}>
                             <CardActionArea>
                                 <CardContent>
                                     <Typography gutterBottom textTransform='uppercase' variant="h5" component="div">
-                                        {filterData.type} NEWS
+                                        {filterData.type} NEWS <MovieIcon />
                                     </Typography>
                                     <Typography variant="body2" color="text.secondary">
                                         {filterData.content}
@@ -99,7 +99,7 @@ export default function New() {
                             <CardActionArea>
                                 <CardContent>
                                     <Typography gutterBottom textTransform='uppercase' variant="h5" component="div">
-                                        {filterData.type} NEWS
+                                        {filterData.type} NEWS <PersonIcon />
                                     </Typography>
                                     <Typography variant="body2" color="text.secondary">
                                         {filterData.content}
