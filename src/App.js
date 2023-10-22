@@ -9,7 +9,9 @@ import useTheme from './hook/useTheme';
 import About from './pages/about';
 import New from './pages/new';
 
+
 function App() {
+  
   const { theme } = useTheme();
   return (
     <div className="App" style={{backgroundColor: theme.backgroundColor}}>

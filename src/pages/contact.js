@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import Container from '@mui/material/Container'
 import { Card, CardContent, TextField, Grid, Button, Typography, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Slide } from '@mui/material'
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -40,6 +41,7 @@ function Contact() {
       .catch((error) => {
         console.error('Error sending data: ', error);
       });
+    handleClickOpen();
   };
 
   return (
@@ -66,7 +68,7 @@ function Contact() {
                   <TextField label="Message" multiline rows={4} placeholder='Type your message here' variant='outlined' fullWidth required name='message' value={formData.message} onChange={handleChange}/>
                 </Grid>
                 <Grid xs={12} item>
-                  <Button type="submit" variant='contained' color='primary' fullWidth onClick={handleClickOpen}>Submit</Button>
+                  <Button type="submit" variant='contained' color='primary' fullWidth>Submit</Button>
                 </Grid>
               </Grid>
             </form>
@@ -80,15 +82,15 @@ function Contact() {
         onClose={handleClose}
         aria-describedby="alert-dialog-slide-description"
       >
-        <DialogTitle>{"Use Google's location service?"}</DialogTitle>
+        <DialogTitle>{"Thank for contact!!!"}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-slide-description">
-            Thank for contact with us. We will respond to your earliest.
+          Your contribution is a great help to us. We welcome all your feedback to improve the effectiveness of our website. We will respond to you as soon as possible by phone number or email. Thank you very much !!!
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Disagree</Button>
-          <Button onClick={handleClose}>Agree</Button>
+          <Button onClick={handleClose}>Back</Button>
+          <Link to='/'><Button>Continous view website</Button></Link>
         </DialogActions>
       </Dialog>
     </Container>
