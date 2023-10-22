@@ -13,14 +13,25 @@ import MovieFilter from '@mui/icons-material/MovieFilter';
 import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { UserAuth } from '../contexts/authcontext';
 
 const pages = ['Home', 'About', 'New', 'Contact'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function Header() {
+  const navigate = useNavigate();
+  const { user, logOut } = UserAuth();  
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null)
+
+  const handleSignOut = async ()=>{
+    try {
+      await logOut()
+    } catch (error) {
+      console.log(error);
+    }
+    navigate('/');
+  }  
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -131,11 +142,11 @@ function Header() {
               </Link>
             ))}
           </Box>
-
-          <Box sx={{ flexGrow: 0 }}>
+          {user?.displayName? (  
+           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="assets/avatar/user.svg" />
+                <Avatar alt={user.email} src={user.photoURL} />
               </IconButton>
             </Tooltip>
             <Menu
@@ -154,13 +165,15 @@ function Header() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
+                <MenuItem onClick={handleCloseUserMenu}>
+                  <Link to={`/createfilm`} style={{ textDecoration: 'none', color: 'black' }}><Typography textAlign="center">Create Film</Typography></Link>
                 </MenuItem>
-              ))}
+                <MenuItem onClick={handleSignOut}>
+                  <Typography textAlign="center">Log out</Typography>
+                </MenuItem>
             </Menu>
-          </Box>
+          </Box> 
+          ): (<Link to='/login'><Button style={{ color: 'white' }}>Login</Button></Link>) }  
         </Toolbar>
       </Container>
     </AppBar>

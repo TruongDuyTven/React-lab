@@ -17,7 +17,16 @@ function Films() {
         const baseURL = `https://6533d85ae1b6f4c5904650d5.mockapi.io/Films`;
         axios.get(baseURL)
             .then(response => {
-                setAPIData(response.data);
+                const sortedData = response.data.sort((a, b) => {
+                    if (a.Title < b.Title) {
+                        return -1;
+                    }
+                    if (a.Title > b.Title) {
+                        return 1;
+                    }
+                    return 0;
+                });
+                setAPIData(sortedData);
             })
             .catch(error => {
                 if (error.response) {

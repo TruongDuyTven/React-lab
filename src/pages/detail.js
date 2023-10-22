@@ -1,13 +1,19 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate, Link } from 'react-router-dom'
 import Container from '@mui/material/Container'
-import { Box, Typography, Button, Modal } from '@mui/material'
+import { Box, Typography, Button, Modal, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Slide } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
 import axios from 'axios'
+import { UserAuth } from '../contexts/authcontext'
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 function Detail() {
   const selectedFilm = useParams();
   const [film, setFilm] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const baseURL = `https://6533d85ae1b6f4c5904650d5.mockapi.io/Films`;
@@ -24,14 +30,46 @@ function Detail() {
       });
   }, [selectedFilm.id]);
 
-  const [open, setOpen] = useState(false);
+  //----------------------------------------------------------------
+  const [openTrailer, setOpenTrailer] = useState(false);
 
-  const handleOpen = () => {
-    setOpen(true);
+  const handleOpenTrailer = () => {
+    setOpenTrailer(true);
   };
+
+  const handleCloseTrailer = () => {
+    setOpenTrailer(false);
+  };
+  //----------------------------------------------------------------
+  const [open, setOpen] = useState(false);
 
   const handleClose = () => {
     setOpen(false);
+  };
+  //----------------------------------------------------------------
+  const { user } = UserAuth();
+
+  const handleUpdate = () => {
+    if (!user) {
+      setOpen(true);
+    } else {
+      navigate(`/updatefilm/${film.id}`)
+    }
+  }
+
+  const handleDelete = () => {
+    if (!user) {
+      setOpen(true);
+    } else {
+      axios.delete(`https://6533d85ae1b6f4c5904650d5.mockapi.io/Films/${film.id}`)
+        .then(response => {
+          console.log('Film deleted successfully:', response);
+        })
+        .catch(error => {
+          console.error('Error deleting film:', error);
+        });
+      navigate(`/`)
+    }
   };
 
   const style = {
@@ -92,27 +130,26 @@ function Detail() {
               Detail: {film && film.Detail}
             </Typography>
             <div style={{ display: 'flex', gap: '20px' }}>
-            <Button variant='outlined' style={{ marginTop: '20px', width: 'calc(33.33%)' }} onClick={handleOpen}>View Trailer</Button>
-            <Button variant='outlined' style={{ marginTop: '20px', width: 'calc(33.33%)' }} onClick={handleOpen}>Update film</Button>
-            <Button variant='outlined' style={{ marginTop: '20px', width: 'calc(33.33%)' }} onClick={handleOpen}>Delete film</Button>
+              <Button variant='outlined' style={{ marginTop: '20px', width: 'calc(33.33%)' }} onClick={handleOpenTrailer}>View Trailer</Button>
+              <Button variant='outlined' style={{ marginTop: '20px', width: 'calc(33.33%)' }} onClick={handleUpdate} >Update film</Button>
+              <Button variant='outlined' style={{ marginTop: '20px', width: 'calc(33.33%)' }} onClick={handleDelete} >Delete film</Button>
             </div>
           </Box>
         </Box>
       }
       <Modal
         style={ModalStyle}
-        open={open}
-        onClose={handleClose}
+        open={openTrailer}
+        onClose={handleCloseTrailer}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-
         <Box style={boxStyle}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: 'white', height: '50px', paddingLeft: '10px', paddingRight: '10px' }}>
             <Typography fontSize='20px' alignItems='center'>
               Trailer for {film && film.Title}
             </Typography>
-            <button style={{ border: 'none', cursor: 'pointer' }} onClick={handleClose}><CloseIcon /></button>
+            <button style={{ border: 'none', cursor: 'pointer' }} onClick={handleCloseTrailer}><CloseIcon /></button>
           </div>
           <iframe
             style={iframeStyle}
@@ -124,6 +161,24 @@ function Detail() {
           ></iframe>
         </Box>
       </Modal>
+      <Dialog
+        open={open}
+        TransitionComponent={Transition}
+        keepMounted
+        onClose={handleClose}
+        aria-describedby="alert-dialog-slide-description"
+      >
+        <DialogTitle>{"Currently you are not logged in"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-slide-description">
+            Please log in to take your current action.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Back</Button>
+          <Link to='/login'><Button>Log in</Button></Link>
+        </DialogActions>
+      </Dialog>
     </Container>
   )
 }
