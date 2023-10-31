@@ -17,7 +17,7 @@ function Createfilm() {
     Clip: '',
     Year: '',
     Nation: '',
-    Detail: ''
+    Detail: '',
   });
   const [open, setOpen] = React.useState(false);
 
@@ -77,10 +77,9 @@ function Createfilm() {
                 </Grid>
                 <Grid xs={12} item>
                   <TextField label="Clip" placeholder='Enter clip number' variant='outlined' fullWidth required name='Clip' value={formData.Clip} onChange={handleChange} />
-                </Grid>
-                
+                </Grid>          
                 <Grid xs={12} item>
-                  <TextField label="Detail" multiline rows={4} placeholder='Type your detail here' variant='outlined' fullWidth required name='detail' value={formData.Detail} onChange={handleChange} />
+                  <TextField label="Detail" multiline rows={4} placeholder='Type your detail here' variant='outlined' fullWidth required name='Detail' value={formData.Detail} onChange={handleChange} />
                 </Grid>
                 <Grid xs={12} item>
                   <Button type="submit" variant='contained' color='primary' fullWidth>Submit</Button>

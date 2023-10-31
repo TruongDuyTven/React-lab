@@ -63,7 +63,7 @@ export default function New() {
                 </Box>
                 <CustomTabPanel value={value} index={0}>
                     {NewsData.map((newsData) => (
-                        <Card sx={{ widt: '100%', marginBottom: '20px', boxShadow: '2px 2px 4px 2px gray' }}>
+                        <Card key={newsData} sx={{ widt: '100%', marginBottom: '20px', boxShadow: '2px 2px 4px 2px gray' }}>
                             <CardActionArea>
                                 <CardContent>
                                     <Typography gutterBottom textTransform='uppercase' variant="h5" component="div">

@@ -16,7 +16,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { UserAuth } from '../contexts/authcontext';
 
-const pages = ['Home', 'About', 'New', 'Contact'];
+const pages = ['home', 'about', 'news', 'contact'];
 
 function Header() {
   const navigate = useNavigate();
@@ -30,6 +30,7 @@ function Header() {
     } catch (error) {
       console.log(error);
     }
+    setAnchorElUser(null);
     navigate('/');
   }  
 
@@ -50,8 +51,8 @@ function Header() {
   };
 
   return (
-    <AppBar position="static" style={{marginBottom: '20px'}}>
-      <Container maxWidth="xl">
+    <AppBar position="static" style={{marginBottom: '20px', width: '100%'}}>
+      <Container>
         <Toolbar disableGutters>
           <MovieFilter sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
           <Typography
@@ -102,7 +103,7 @@ function Header() {
               }}
             >
               {pages.map((page) => (
-                <Link to={page === 'Home' ? `/` : `/${page}`} style={{ textDecoration: "none" }}>
+                <Link key={page} to={page === 'home' ? `/` : `/${page}`} style={{ textDecoration: "none" }}>
                   <MenuItem key={page} onClick={handleCloseNavMenu}>
                     <Typography textAlign="center">{page}</Typography>
                   </MenuItem>
@@ -131,7 +132,7 @@ function Header() {
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex', textDecoration: 'none' } }}>
             {pages.map((page) => (
-              <Link to={page === 'Home' ? `/` : `/${page}`} style={{ textDecoration: "none" }}>
+              <Link key={page} to={page === 'home' ? `/` : `/${page}`} style={{ textDecoration: "none" }}>
                 <Button
                   key={page}
                   onClick={handleCloseNavMenu}

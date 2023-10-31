@@ -8,10 +8,9 @@ import useTheme from '../hook/useTheme';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
-function Films() {
+function Home() {
     const { theme, toggle, dark } = useTheme();
     const [APIData, setAPIData] = useState([]);
-    
 
     useEffect(() => {
         const baseURL = `https://6533d85ae1b6f4c5904650d5.mockapi.io/Films`;
@@ -37,13 +36,14 @@ function Films() {
             });
     }, []);
 
+
     return (
         <div className='container-films' style={{ backgroundColor: theme.backgroundColor, color: theme.color, marginTop: '50px', marginBottom: '50px' }}>
             <Container>
                 <Grid container spacing={5}>
                     {APIData.map((film) => (
                         <Grid item sx={12} sm={6} md={4} key={film.id}>
-                            <Card sx={{ maxWidth: 350 }}>
+                            <Card sx={{ width: 350 }}>
                                 <CardActionArea>
                                     <CardMedia
                                         component="img"
@@ -83,4 +83,4 @@ function Films() {
         </div>
     );
 }
-export default Films;
+export default Home;
